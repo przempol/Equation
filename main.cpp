@@ -9,7 +9,7 @@ const double pi = 3.14159265359;
 
 const unsigned int N = 100;
 const double dx = 1./N;
-const double dt = 0.001;
+const double dt = 0.0001;
 
 
 const double kappa=0;
@@ -50,27 +50,37 @@ int main(int argc, char* argv[]){
 	}
 	
 	
-	//leap frog ?
-	for(unsigned int ii=0;ii<N+1;ii++){
-		psiR[ii]=psiR[ii]+HItmp[ii]*dt/2.;
-		tau+=(dt/2);
-		for(unsigned int ii=1;ii<N;ii++){
-			HRtmp[ii]=calculateHamiltonian(psiR[ii-1], psiR[ii], psiR[ii+1],tau,ii);
-			HItmp[ii]=calculateHamiltonian(psiI[ii-1], psiI[ii], psiI[ii+1],tau,ii);
-		}
+	
+	
+	for(unsigned int sim=0;sim<167;sim++){
+		//leap frog ?
 		
-		psiI[ii]=psiI[ii]-HRtmp[ii]*dt/2.;
+		
+		for(unsigned int ii=0;ii<N+1;ii++)	psiR[ii]=psiR[ii]+HItmp[ii]*dt/2.;
+		
+		for(unsigned int jj=1;jj<N;jj++)	HItmp[jj]=calculateHamiltonian(psiI[jj-1], psiI[jj], psiI[jj+1],tau+dt/2.,jj);
+		
+		for(unsigned int ii=0;ii<N+1;ii++)	psiI[ii]=psiI[ii]-HRtmp[ii]*dt;	
+		
+		for(unsigned int jj=1;jj<N;jj++)	HRtmp[jj]=calculateHamiltonian(psiR[jj-1], psiR[jj], psiR[jj+1],tau+dt,jj);
+			
+		for(unsigned int ii=0;ii<N+1;ii++)	psiR[ii]=psiR[ii]+HItmp[ii]*dt/2.;
+		
+		
+		
+		for(unsigned int ii=0;ii<N+1;ii++)	cout<<psiR[ii]<<endl;
+		cout<<endl<<endl;
+		//leapfrog end
 		
 	}
-	//leapfrog end
 	
 	
-	//cout<<sin(dx)<<"\t"<<psiR[2]<<endl;
-	cout<<psiR[1]<<"\t"<<psiR[2]<<"\t"<<psiR[3]<<"\t"<<endl;
-	cout<<calculateHamiltonian(psiR[1],psiR[2],psiR[3])<<endl;
+	//for(unsigned int ii=0;ii<N+1;ii++) cout<<psiR[ii]<<endl;
 	
 	
 	delete psiR;
 	delete psiI;
+	delete HRtmp;
+	delete HItmp;
 	return  0;
 }
