@@ -9,7 +9,7 @@ AUTHOR= Przemyslaw Nowak
 SOURCES =  main.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 #Dictionary classes
-#HEADERS = xmath.h constants.h charts.h linkdef.h
+#HEADERS = xmath.h constants.h charts.h linkdef.h.
 HEADERS = 
 EXECUTABLE=program
 all: $(EXECUTABLE)
